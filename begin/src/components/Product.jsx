@@ -1,15 +1,16 @@
-import styles from './Product.module.css'
-
-import { useState } from 'react';
-import Button from './Button';
-import Input from './Input';
+import styles from "./Product.module.css";
+import ViewList from "./ViewList";
+import { useState } from "react";
+import Button from "./Button";
+import Input from "./Input";
 
 function Product() {
   const [count, setCount] = useState(0);
   const [discount, setDiscount] = useState(0);
-  const [name, setName] = useState('Banana');
+  const [name, setName] = useState("Banana");
   const [price, setPrice] = useState(2.99);
-  
+  const [list, setList] = useState([]);
+
   const handlerPlus = () => {
     setCount((prevCount) => {
       let count = prevCount + 1;
@@ -37,25 +38,30 @@ function Product() {
     setPrice(value);
   };
   const handlerAddProduct = () => {
-    console.log('handlerAddProduct');
-  }
-
+    const newItem = {
+      name: name,
+      price: price,
+    };
+    const newList = [...list, newItem];
+    setList(newList);
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.name}>{name}</div>
       <div className={styles.counter}>
-        <Button label='➖' onClick={handlerMinus} />
+        <Button label="➖" onClick={handlerMinus} />
         <span className={styles.count}>{count}</span>
-        <Button label='➕' onClick={handlerPlus} />
+        <Button label="➕" onClick={handlerPlus} />
       </div>
       <div className={styles.price}>{`$ ${price}`} each</div>
       <div className={styles.discount}>{`Discount: ${discount}%`}</div>
       <div className={styles.form}>
-        <Input value={name} label='Product Name' onChange={handlerChangeName} />
-        <Input value={price} label='Price' onChange={handlerChangePrice} />
+        <Input value={name} label="Product Name" onChange={handlerChangeName} />
+        <Input value={price} label="Price" onChange={handlerChangePrice} />
       </div>
-      <Button label='Add Product' onClick={handlerAddProduct} />
+      <Button label="Add Product" onClick={handlerAddProduct} />
+      <ViewList list={list} />
     </div>
   );
 }
